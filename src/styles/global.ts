@@ -1,4 +1,4 @@
-import { globalCss, createTheme, theme } from '@ionext-ui/react'
+import { globalCss } from '@ionext-ui/react'
 
 export const globalStyles = globalCss({
   '*': {
