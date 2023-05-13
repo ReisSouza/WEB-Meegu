@@ -1,30 +1,20 @@
 import React from 'react'
-import { useRouter } from 'next/router'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, Checkbox, Heading, TextField } from '@ionext-ui/react'
+import { Button, Checkbox, DatePicker, Heading, Select, TextField } from '@ionext-ui/react'
 
 import * as S from './styles'
 
 import { CreateAccountSchema, CreateAccountFormType } from './validation'
 
 export const CreateAccount = () => {
-  const { push } = useRouter()
-
   const {
     control,
     handleSubmit,
     formState: { errors },
-    watch,
   } = useForm<CreateAccountFormType>({
     resolver: zodResolver(CreateAccountSchema),
   })
-
-  const canSubmit =
-    watch('email') !== undefined &&
-    watch('name') !== undefined &&
-    watch('password') !== undefined &&
-    watch('confirmPassword') !== undefined
 
   const handleCreateUser = async (data: CreateAccountFormType) => {
     try {
@@ -41,54 +31,133 @@ export const CreateAccount = () => {
         <Controller
           name="name"
           control={control}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Nome completo"
-              hint={errors.name?.message}
-              status={errors.name?.message ? 'error' : 'default'}
-            />
-          )}
+          render={({ field }) => <TextField {...field} hint={errors.name?.message} label="Nome completo" />}
         />
         <Controller
           name="email"
           control={control}
           render={({ field }) => (
-            <TextField
-              {...field}
-              label="Cadastre seu email"
-              type="email"
-              hint={errors.email?.message}
-              status={errors.email?.message ? 'error' : 'default'}
-            />
+            <TextField {...field} type="email" label="Cadastre seu email" hint={errors.email?.message} />
           )}
         />
+        <S.Flex>
+          <Controller
+            name="document"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                type="text"
+                label="Documento"
+                complementLabel="CPF ou CNPJ"
+                formatStringType="cpfOurCnpj"
+                hint={errors.document?.message}
+              />
+            )}
+          />
+          <Controller
+            name="birthdate"
+            control={control}
+            render={({ field }) => (
+              <DatePicker {...field} type="text" label="Data de nascimento" hint={errors.birthdate?.message} />
+            )}
+          />
+        </S.Flex>
+        <S.Flex>
+          <Controller
+            name="zipcode"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                css={{ maxWidth: 200 }}
+                {...field}
+                label="CEP"
+                formatStringType="postalCode"
+                hint={errors.zipcode?.message}
+              />
+            )}
+          />
+          <Controller
+            name="street"
+            control={control}
+            render={({ field }) => (
+              <TextField css={{ width: '100%' }} {...field} label="Rua" hint={errors.street?.message} />
+            )}
+          />
+        </S.Flex>
+        <S.Flex>
+          <Controller
+            name="number"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                type="number"
+                label="Numero"
+                formatStringType="number"
+                hint={errors.number?.message}
+                css={{ width: 200, minWidth: 200, maxWidth: 200 }}
+              />
+            )}
+          />
+          <Controller
+            name="complement"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="complemento"
+                css={{ width: '100%' }}
+                hint={errors.complement?.message}
+                status={errors.complement?.message ? 'error' : 'default'}
+              />
+            )}
+          />
+        </S.Flex>
+        <S.Flex>
+          <Controller
+            name="city"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                label="Cidade"
+                onValueChange={field.onChange}
+                hint={errors.city?.message}
+                options={[
+                  { label: 'Serra', value: 'SE' },
+                  { label: 'Vitoria', value: 'Vix' },
+                ]}
+              />
+            )}
+          />
+          <Controller
+            name="district"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                label="Estado"
+                onValueChange={field.onChange}
+                options={[{ label: 'Espirito Santo', value: 'ES' }]}
+                hint={errors.district?.message}
+              />
+            )}
+          />
+        </S.Flex>
 
         <Controller
           name="password"
           control={control}
           render={({ field }) => (
-            <TextField
-              {...field}
-              label="Crie uma senha"
-              type="password"
-              hint={errors.password?.message}
-              status={errors.password?.message ? 'error' : 'default'}
-            />
+            <TextField {...field} label="Crie uma senha" type="password" hint={errors.password?.message} />
           )}
         />
-
         <Controller
           name="confirmPassword"
           control={control}
           render={({ field }) => (
-            <TextField
-              {...field}
-              label="Confirme uma senha"
-              type="password"
-              hint={errors.confirmPassword?.message}
-              status={errors.confirmPassword?.message ? 'error' : 'default'}
-            />
+            <TextField {...field} type="password" label="Confirme uma senha" hint={errors.confirmPassword?.message} />
           )}
         />
         <Controller
@@ -104,11 +173,8 @@ export const CreateAccount = () => {
           )}
         />
 
-        <Button css={{ marginTop: '$4' }} disabled={!canSubmit} fullWidth type="submit">
-          Continuar
-        </Button>
-        <Button type="button" onClick={() => push('/auth/login')} fullWidth variant="outlined">
-          Voltar
+        <Button css={{ marginTop: '$4' }} fullWidth type="submit">
+          Cadastrar
         </Button>
       </S.FormCreateAccount>
     </S.ContainerFormCreateAccount>

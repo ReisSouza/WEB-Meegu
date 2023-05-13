@@ -3,6 +3,8 @@ import { styled } from '@ionext-ui/react'
 export const ContainerFormCreateAccount = styled('div', {
   display: 'flex',
   flexDirection: 'column',
+  justifyContent: 'center',
+
   width: '100%',
 
   gap: '$8',
@@ -11,7 +13,8 @@ export const ContainerFormCreateAccount = styled('div', {
 export const FormCreateAccount = styled('form', {
   display: 'flex',
   flexDirection: 'column',
-  gap: '$2',
+  width: '100%',
+  gap: '$4',
 })
 
 export const WrappedInputs = styled('fieldset', {
@@ -21,4 +24,13 @@ export const WrappedInputs = styled('fieldset', {
   display: 'flex',
   flexDirection: 'column',
   marginBottom: '$2',
+})
+
+export const Flex = styled('div', {
+  display: 'flex',
+  gap: '$4',
+  width: '100%',
+  '& > div': {
+    flex: 1,
+  },
 })

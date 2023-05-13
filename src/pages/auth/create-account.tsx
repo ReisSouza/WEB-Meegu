@@ -1,7 +1,8 @@
+import { CreateAccount } from '@/screens/Auth/CreateAccount/CreateAccount'
 import { NextPage } from 'next'
 
-const CreateAccount: NextPage = () => {
-  return <div />
+const CreateAccountPage: NextPage = () => {
+  return <CreateAccount />
 }
 
-export default CreateAccount
+export default CreateAccountPage
