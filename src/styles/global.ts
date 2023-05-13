@@ -1,4 +1,4 @@
-import { globalCss } from '@ionext-ui/react'
+import { globalCss, createTheme, theme } from '@ionext-ui/react'
 
 export const globalStyles = globalCss({
   '*': {
@@ -41,4 +41,19 @@ export const globalStyles = globalCss({
     outline: 'none',
     fontFamily: 'inherit',
   },
+  // '@dark': {
+  //   // notice the `media` definition on the stitches.config.ts file
+  //   ':root:not(.light)': {
+  //     ...Object.keys(darkTheme.colors).reduce((varSet, currentColorKey) => {
+  //       const currentColor = darkTheme.colors[currentColorKey]
+  //       const currentColorValue =
+  //         currentColor.value.substring(0, 1) === '$' ? `$colors${currentColor.value}` : currentColor.value
+
+  //       return {
+  //         [currentColor.variable]: currentColorValue,
+  //         ...varSet,
+  //       }
+  //     }, {}),
+  //   },
+  // },
 })
