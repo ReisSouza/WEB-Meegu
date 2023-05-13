@@ -5,12 +5,14 @@ import type { AppProps } from 'next/app'
 import React, { ReactElement, ReactNode } from 'react'
 
 import { Roboto_Mono } from 'next/font/google'
+import { ThemeProvider } from 'next-themes'
 
 import { globalStyles } from '@/styles/global'
 
 import '@/libs/dayjs'
 import { AuthLayout } from '@/components/layout/AuthLayout/AuthLayout'
 import { MainLayout } from '@/components/layout/MainLayout/MainLayout'
+import { custom } from '@/styles/thema/meegu'
 
 const roboto_mono = Roboto_Mono({
   subsets: ['latin'],
@@ -39,7 +41,18 @@ const MyApp: React.FC<AppPropsWithLayout> = ({ Component, pageProps, router }: A
 
   globalStyles()
 
-  return <div className={roboto_mono.className}>{getLayout(<Component {...pageProps} />)}</div>
+  return (
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="custom"
+      value={{
+        custom: custom.className,
+        light: 'light',
+      }}
+    >
+      <div className={roboto_mono.className}>{getLayout(<Component {...pageProps} />)}</div>
+    </ThemeProvider>
+  )
 }
 
 export default MyApp
