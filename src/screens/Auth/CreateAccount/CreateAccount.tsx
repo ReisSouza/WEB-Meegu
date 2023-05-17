@@ -1,13 +1,21 @@
 import React from 'react'
+import { formatRemove } from '@format-string/core'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, Checkbox, DatePicker, Heading, Select, TextField } from '@ionext-ui/react'
+import { Button, Checkbox, DatePicker, Heading, TextField } from '@ionext-ui/react'
 
 import * as S from './styles'
 
 import { CreateAccountSchema, CreateAccountFormType } from './validation'
+import { useCreateUserMutation } from '@/services/users'
+import { useToastContext } from '@/context/ToastProvider'
+import { useRouter } from 'next/router'
+import dayjs from 'dayjs'
 
 export const CreateAccount = () => {
+  const { push } = useRouter()
+  const { getFeedbackRequest } = useToastContext()
+  const [createUser, { isLoading }] = useCreateUserMutation()
   const {
     control,
     handleSubmit,
@@ -17,9 +25,15 @@ export const CreateAccount = () => {
   })
 
   const handleCreateUser = async (data: CreateAccountFormType) => {
-    try {
-      console.log(data)
-    } catch (error) {}
+    createUser({
+      ...data,
+      zipcode: formatRemove(data.zipcode),
+    }).then((res) => {
+      getFeedbackRequest(res)
+      if (res && 'data' in res) {
+        push('/auth/login')
+      }
+    })
   }
 
   return (
@@ -58,6 +72,7 @@ export const CreateAccount = () => {
           <Controller
             name="birthdate"
             control={control}
+            defaultValue={dayjs(new Date()).format('YYYY-MM-DD')}
             render={({ field }) => (
               <DatePicker {...field} type="text" label="Data de nascimento" hint={errors.birthdate?.message} />
             )}
@@ -68,80 +83,7 @@ export const CreateAccount = () => {
             name="zipcode"
             control={control}
             render={({ field }) => (
-              <TextField
-                css={{ maxWidth: 200 }}
-                {...field}
-                label="CEP"
-                formatStringType="postalCode"
-                hint={errors.zipcode?.message}
-              />
-            )}
-          />
-          <Controller
-            name="street"
-            control={control}
-            render={({ field }) => (
-              <TextField css={{ width: '100%' }} {...field} label="Rua" hint={errors.street?.message} />
-            )}
-          />
-        </S.Flex>
-        <S.Flex>
-          <Controller
-            name="number"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                type="number"
-                label="Numero"
-                formatStringType="number"
-                hint={errors.number?.message}
-                css={{ width: 200, minWidth: 200, maxWidth: 200 }}
-              />
-            )}
-          />
-          <Controller
-            name="complement"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="complemento"
-                css={{ width: '100%' }}
-                hint={errors.complement?.message}
-                status={errors.complement?.message ? 'error' : 'default'}
-              />
-            )}
-          />
-        </S.Flex>
-        <S.Flex>
-          <Controller
-            name="city"
-            control={control}
-            render={({ field }) => (
-              <Select
-                {...field}
-                label="Cidade"
-                onValueChange={field.onChange}
-                hint={errors.city?.message}
-                options={[
-                  { label: 'Serra', value: 'SE' },
-                  { label: 'Vitoria', value: 'Vix' },
-                ]}
-              />
-            )}
-          />
-          <Controller
-            name="district"
-            control={control}
-            render={({ field }) => (
-              <Select
-                {...field}
-                label="Estado"
-                onValueChange={field.onChange}
-                options={[{ label: 'Espirito Santo', value: 'ES' }]}
-                hint={errors.district?.message}
-              />
+              <TextField {...field} label="CEP" formatStringType="postalCode" hint={errors.zipcode?.message} />
             )}
           />
         </S.Flex>
@@ -161,19 +103,19 @@ export const CreateAccount = () => {
           )}
         />
         <Controller
-          name="useTermsAccepted"
+          name="acceptedTermsAndConditions"
           defaultValue={false}
           control={control}
           render={({ field }) => (
             <Checkbox
-              hint={errors.useTermsAccepted?.message}
+              hint={errors.acceptedTermsAndConditions?.message}
               label="Aceitar os termos de uso e políticas de privacidade."
               onCheckedChange={() => field.onChange(!field.value)}
             />
           )}
         />
 
-        <Button css={{ marginTop: '$4' }} fullWidth type="submit">
+        <Button isLoading={isLoading} css={{ marginTop: '$4' }} fullWidth type="submit">
           Cadastrar
         </Button>
       </S.FormCreateAccount>

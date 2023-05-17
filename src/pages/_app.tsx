@@ -13,6 +13,10 @@ import '@/libs/dayjs'
 import { AuthLayout } from '@/components/layout/AuthLayout/AuthLayout'
 import { MainLayout } from '@/components/layout/MainLayout/MainLayout'
 import { custom } from '@/styles/thema/meegu'
+import { AuthProvider } from '@/context/AuthContext'
+import { Provider } from 'react-redux'
+import { store } from '@/store/store'
+import { ToastProvider } from '@/context/ToastProvider'
 
 const roboto_mono = Roboto_Mono({
   subsets: ['latin'],
@@ -42,16 +46,22 @@ const MyApp: React.FC<AppPropsWithLayout> = ({ Component, pageProps, router }: A
   globalStyles()
 
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="custom"
-      value={{
-        custom: custom.className,
-        light: 'light',
-      }}
-    >
-      <div className={roboto_mono.className}>{getLayout(<Component {...pageProps} />)}</div>
-    </ThemeProvider>
+    <Provider store={store}>
+      <AuthProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="custom"
+          value={{
+            custom: custom.className,
+            light: 'light',
+          }}
+        >
+          <ToastProvider>
+            <div className={roboto_mono.className}>{getLayout(<Component {...pageProps} />)}</div>
+          </ToastProvider>
+        </ThemeProvider>
+      </AuthProvider>
+    </Provider>
   )
 }
 

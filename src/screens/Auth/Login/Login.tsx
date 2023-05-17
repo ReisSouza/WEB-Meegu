@@ -5,11 +5,13 @@ import { Button, Heading, TextField } from '@ionext-ui/react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CredentialsFormData, CredentialsSchema } from './validation'
+import { useAuthContext } from '@/context/AuthContext'
 
 export type LoginProps = {}
 
 export const Login: React.FC<LoginProps> = ({}: LoginProps) => {
   const { push } = useRouter()
+  const { signIn } = useAuthContext()
 
   const {
     handleSubmit,
@@ -23,8 +25,12 @@ export const Login: React.FC<LoginProps> = ({}: LoginProps) => {
     push('/auth/forgot-password')
   }
 
+  const handleLogin = (data: CredentialsFormData) => {
+    signIn(data)
+  }
+
   return (
-    <S.LoginContainer onSubmit={handleSubmit(() => {})}>
+    <S.LoginContainer onSubmit={handleSubmit(handleLogin)}>
       <Heading color="secondary" align="center">
         Entra na plataforma
       </Heading>
