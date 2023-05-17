@@ -87,16 +87,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
 
     if ((!token || token === '') && !ALLOWED_ROUTES.find((route) => router.pathname.includes(route))) {
-      router.push('/auth/login')
+      // router.push('/auth/login')
     }
   }, [router, getUserByID])
 
   useEffect(() => {
     if (isErrorSign && !ALLOWED_ROUTES.find((route) => router.pathname.includes(route))) {
-      router.push('/auth/login')
+      // router.push('/auth/login')
     }
     if (isErrorSign && !ALLOWED_ROUTES.find((route) => router.pathname.includes(route))) {
-      router.push('/auth/login')
+      // router.push('/auth/login')
     }
   }, [isErrorSign, router, isErrorRefresh])
 
