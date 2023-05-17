@@ -17,12 +17,12 @@ type AuthProviderProps = {
 export type AuthContextType = {
   isAuth: boolean
   signOut: () => void
-  signIn: ({ username, password }: SignInArgs) => void
+  signIn: ({ email, password }: SignInArgs) => void
   isErrorSign: boolean
 }
 
 export type SignInArgs = {
-  username: string
+  email: string
   password: string
 }
 
@@ -50,8 +50,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     Cookies.remove('meegu_token_expiration_date')
   }
 
-  const signIn = ({ username, password }: SignInArgs) => {
-    signInMutation({ username, password }).then((res) => {
+  const signIn = ({ email, password }: SignInArgs) => {
+    signInMutation({ email, password }).then((res) => {
       if (!!res && 'data' in res) {
         setIsAuth(true)
         router.push('/')

@@ -2,7 +2,7 @@ import api from '@/config/api'
 import { User } from '@/types/user'
 
 export type LoginArgs = {
-  username: string
+  email: string
   password: string
 }
 

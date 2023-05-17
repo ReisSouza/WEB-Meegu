@@ -1,39 +1,36 @@
-import api from '@/config/api';
-import { User } from '@/types/user';
+import api from '@/config/api'
+import { User } from '@/types/user'
 
 export type ForgotPasswordArgs = {
-  email: string;
-};
+  email: string
+}
 
 export type ForgotPasswordResult = {
-  message: string;
-};
+  message: string
+}
 
 export type ResetPasswordArgs = {
-  key: string;
-  token: string;
-  password: string;
-};
+  key: string
+  token: string
+  password: string
+}
 
-export type CreateUserArgs = Omit<
-  User,
-  'id' | 'access_token' | 'emailValidated' | 'avatarUrl' | 'createdAt' | 'role' | 'status' | 'preferences'
-> & {
-  password: string;
-  confirmPassword: string;
-};
+export type CreateUserArgs = Omit<User, 'id' | 'access_token' | 'createdAt' | 'updatedAt'> & {
+  password: string
+  confirmPassword: string
+}
 
 export type ChangePasswordArgs = {
-  password: string;
-  newPassword: string;
-};
+  password: string
+  newPassword: string
+}
 
 export type ValidateArgs = {
-  key: string;
-  token: string;
-};
+  key: string
+  token: string
+}
 
-export type UpdateUser = User;
+export type UpdateUser = User
 
 export const usersApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -43,7 +40,7 @@ export const usersApi = api.injectEndpoints({
 
     createUser: builder.mutation<User, CreateUserArgs>({
       query: (data) => ({
-        url: 'users',
+        url: 'account',
         method: 'POST',
         body: {
           ...data,
@@ -88,14 +85,14 @@ export const usersApi = api.injectEndpoints({
 
     addAvatar: builder.mutation<File, File>({
       query: (file) => {
-        const formData = new FormData();
+        const formData = new FormData()
 
-        formData.append('file', file);
+        formData.append('file', file)
         return {
           url: `users/avatar/add`,
           method: 'PATCH',
           body: formData,
-        };
+        }
       },
     }),
 
@@ -104,7 +101,7 @@ export const usersApi = api.injectEndpoints({
         return {
           url: `users/avatar/remove`,
           method: 'DELETE',
-        };
+        }
       },
     }),
 
@@ -114,7 +111,7 @@ export const usersApi = api.injectEndpoints({
           url: 'users/setUserEmailValidation',
           method: 'POST',
           body: { key, token },
-        };
+        }
       },
     }),
 
@@ -124,13 +121,13 @@ export const usersApi = api.injectEndpoints({
           url: 'users/createUserEmailValidation',
           method: 'POST',
           body: { email },
-        };
+        }
       },
     }),
   }),
 
   overrideExisting: false,
-});
+})
 
 export const {
   useCreateUserMutation,
@@ -143,4 +140,4 @@ export const {
   useValidateMutation,
   useSendValidationEmailMutation,
   useGetUserByIdMutation,
-} = usersApi;
+} = usersApi

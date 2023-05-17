@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@format-string/core": "^0.3.6",
     "@hookform/resolvers": "^3.1.0",
     "@ionext-ui/react": "^5.0.8",
     "@reduxjs/toolkit": "^1.9.5",

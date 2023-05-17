@@ -1,18 +1,12 @@
 export type User = {
   id: string
-  updatedAt: string
+  updatedAt?: string
   createdAt: string
   access_token: string
-  useTermsAccepted: boolean
+  acceptedTermsAndConditions: boolean
   email: string
   name: string
-  address: {
-    street: string
-    city: string
-    district: string
-    complement: string
-    zipcode: string
-  }
+  zipcode: string
   birthdate: string
-  document: string
+  document?: string
 }
