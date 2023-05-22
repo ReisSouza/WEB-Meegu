@@ -32,7 +32,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children }: AuthLayoutPr
     <>
       <S.AuthLayoutContainer>
         <S.WrappedLeft>
-          <Logo />
+          <Logo isCenter />
 
           <S.ContentLeft>{children}</S.ContentLeft>
         </S.WrappedLeft>

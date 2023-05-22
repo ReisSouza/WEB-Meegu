@@ -1,5 +1,8 @@
 import api from '@/config/api'
+import { Args } from '@/types/args'
+import { Response } from '@/types/response'
 import { User } from '@/types/user'
+import getUrlFilterOptions from '@/utils/getUrl'
 
 export type ForgotPasswordArgs = {
   email: string
@@ -34,13 +37,39 @@ export type UpdateUser = User
 
 export const usersApi = api.injectEndpoints({
   endpoints: (builder) => ({
+    getAccounts: builder.query<
+      Response<{
+        accounts: User[]
+      }>,
+      Args<'email' | 'name' | 'document'>
+    >({
+      query: ({ page, limit, filter }) =>
+        getUrlFilterOptions({
+          baseUrl: 'accounts',
+          filterOptions: {
+            page,
+            limit,
+            name: filter,
+          },
+        }),
+    }),
+
     getUserById: builder.mutation<User, string>({
-      query: (id) => `users/${id}`,
+      query: (id) => `accounts/${id}`,
+    }),
+
+    deleteAccount: builder.mutation<any, string>({
+      query: (id) => {
+        return {
+          url: `accounts/${id}`,
+          method: 'DELETE',
+        }
+      },
     }),
 
     createUser: builder.mutation<User, CreateUserArgs>({
       query: (data) => ({
-        url: 'account',
+        url: 'accounts',
         method: 'POST',
         body: {
           ...data,
@@ -64,9 +93,9 @@ export const usersApi = api.injectEndpoints({
       }),
     }),
 
-    updateUser: builder.mutation<User, User>({
+    updateUser: builder.mutation<User, Omit<User, 'createdAt' | 'access_token'>>({
       query: (user) => ({
-        url: `users/${user.id}`,
+        url: `accounts/${user.id}`,
         method: 'PUT',
         body: user,
       }),
@@ -140,4 +169,6 @@ export const {
   useValidateMutation,
   useSendValidationEmailMutation,
   useGetUserByIdMutation,
+  useGetAccountsQuery,
+  useDeleteAccountMutation,
 } = usersApi

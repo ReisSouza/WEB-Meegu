@@ -11,7 +11,7 @@ const api = createApi({
       const token = Cookies.get('arq_questões_access_token')
 
       if (token) {
-        headers.set('authorization', `Bearer ${token}`)
+        headers.set('authorization', `Bearer meegu`)
       }
 
       return headers

@@ -9,6 +9,11 @@ export const Main = styled('main', {
   width: '100%',
   maxWidth: 'calc(100vw -240px)',
   height: 'calc(100vh -64px)',
+  padding: '$6',
 
   overflow: 'hidden',
+})
+
+export const Flex = styled('div', {
+  display: 'flex',
 })
