@@ -17,8 +17,8 @@ export const Aside: React.FC<AsideProps> = ({}: AsideProps) => {
       <S.List>
         {ROUTES.map((route, index) => {
           return (
-            <Link key={index} href={route.icon} passHref>
-              <S.ItemList active={asPath === route.icon}>
+            <Link key={index} href={route.href} passHref>
+              <S.ItemList active={asPath === route.href}>
                 <Icon icon={route.icon} size={24} />
                 <Paragraph css={{ fontWeight: '$bold' }}>{route.label}</Paragraph>
               </S.ItemList>

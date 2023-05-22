@@ -11,8 +11,8 @@ export const ROUTES = [
     href: '/',
   },
   {
-    label: 'Usuários',
+    label: 'Account',
     icon: 'users',
-    href: '/users',
+    href: '/accounts',
   },
 ]

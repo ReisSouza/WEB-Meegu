@@ -12,7 +12,7 @@ export const Header: React.FC<HeaderProps> = ({}: HeaderProps) => {
       <S.WrappedLogo>
         <Logo cursorPoint size="small" />
       </S.WrappedLogo>
-      <Avatar />
+      <Avatar size="small" />
     </S.HeaderContainer>
   )
 }
