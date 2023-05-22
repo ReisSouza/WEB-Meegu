@@ -6,11 +6,6 @@ export const CreateAccountSchema = z
   .object({
     name: z.string({ required_error: 'Nome é obrigatório' }).nonempty({ message: 'Nome é obrigatório' }),
     email: z.string({ required_error: 'Email e obrigatório' }).email({ message: 'Email invalido' }),
-    street: z.string({ required_error: 'Rua e obrigatório' }),
-    city: z.string({ required_error: 'Cidade e obrigatório' }),
-    district: z.string({ required_error: 'Estado e obrigatório' }),
-    number: z.string({ required_error: 'Numero e obrigatório' }),
-    complement: z.string().optional(),
     password: z
       .string({ required_error: 'Senha é obrigatório' })
       .min(1, { message: 'Senha é obrigatório' })
@@ -22,7 +17,7 @@ export const CreateAccountSchema = z
       .string({ required_error: 'Confirmação de password e obrigatório' })
       .nonempty({ message: 'Confirmação de password e obrigatório' }),
 
-    useTermsAccepted: z.boolean({ required_error: 'Aceite os termos de uso da plataforma' }).refine(
+    acceptedTermsAndConditions: z.boolean({ required_error: 'Aceite os termos de uso da plataforma' }).refine(
       (value) => {
         return value
       },

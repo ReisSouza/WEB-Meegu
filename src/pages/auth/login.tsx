@@ -1,7 +1,8 @@
+import { Login } from '@/screens/Auth/Login/Login'
 import { NextPage } from 'next'
 
-const Login: NextPage = () => {
-  return <div />
+const LoginPage: NextPage = () => {
+  return <Login />
 }
 
-export default Login
+export default LoginPage
