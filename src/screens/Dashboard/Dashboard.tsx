@@ -86,7 +86,12 @@ export const Dashboard: React.FC<DashboardProps> = ({}: DashboardProps) => {
             flex: 1,
           }}
         >
-          <Link style={{ display: 'flex', gap: '16px' }} target="_blank" href="http://localhost:3001/doc" passHref>
+          <Link
+            style={{ display: 'flex', gap: '16px' }}
+            target="_blank"
+            href={`${process.env.NEXT_PUBLIC_API_URL}/doc`}
+            passHref
+          >
             <FileDoc size={24} />
             <Heading size="sm" color="secondary">
               Documentação API
